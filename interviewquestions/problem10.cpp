@@ -16,33 +16,30 @@ void printArray(std::vector<char>& array, int size)
     std::cout << std::endl;
 }
 
+// Solution 1:
+/**
 class Solution {
 public:
-    bool containsDuplicate(std::vector<char>& array) {
+    bool containsDuplicate(std::vector<char> array) {
+        std::sort(array.begin(), array.end());
+        printArray(array, array.size());
         std::unordered_set<char> set;
+        int dots = 0;
         for(auto& character : array)
         {
             if(character != '.')
             {
                 set.emplace(character);
             }
+            else { dots++; }
         }
-        return set.size() < array.size();
+        return set.size() < (array.size() - dots);
     }
 
     bool isValidSudoku(std::vector<std::vector<char>>& board) {
         // Check every row
         for(int x = 0; x < 9; x++)
         {
-            std::sort(board[x].begin(), board[x].end());
-            printArray(board[x], board[x].size());
-            //for(int y = 0; y < 9; y++)
-            //{
-            //    if(board[x][y] != y + 1 && board[x][y] != '.')
-            //    {
-            //        return false;
-            //    }
-            //}
             if(containsDuplicate(board[x]))
             {
                 return false;
@@ -54,16 +51,13 @@ public:
         // Check every column
         for(int x = 0; x < 9; x++)
         {
-            std::sort(board[x].begin(), board[x].end());
-            printArray(board[x], board[x].size());
-            //for(int y = 0; y < 9; y++)
-            //{
-            //    if(board[y][x] != y + 1 && board[y][x] != '.')
-            //    {
-            //        return false;
-            //    }
-            //}
-            if(containsDuplicate(board[x]))
+            std::vector<char> column;
+            for(int y = 0; y < 9; y++)
+            {
+                column.emplace_back(board[y][x]);
+            }
+
+            if(containsDuplicate(column))
             {
                 return false;
             }
@@ -71,15 +65,15 @@ public:
 
         std::cout<<std::endl;
 
+        int yLimit = 0;
         // Check all sub boxes
         for(int k = 0; k < 3; k++)
         {
-            int yLimit = 0;
+            int xLimit = 0;
             // Check first 3 sub boxes
             for(int i = 0; i < 3; i++)
             {
                 std::vector<char> subbox;
-                int xLimit = 0;
                 for(int x = xLimit; x < (xLimit + 3); x++)
                 {
                     for(int y = yLimit; y < (yLimit + 3); y++)
@@ -88,15 +82,6 @@ public:
                     }
                 }
 
-                std::sort(subbox.begin(), subbox.end());
-                printArray(subbox, subbox.size());
-                //for(int j = 0; j < 9; j++)
-                //{
-                //    if(subbox[j] != j + 1 && subbox[j] != '.')
-                //    {
-                //        return false;
-                //    }
-                //}
                 if(containsDuplicate(subbox))
                 {
                     return false;
@@ -109,6 +94,10 @@ public:
         return true;
     }
 };
+**/
+
+// Optimised Solution:
+
 
 int main()
 {
@@ -126,6 +115,7 @@ int main()
   {'.','.','.','4','1','9','.','.','5'},
   {'.','.','.','.','8','.','.','7','9'}
     };
-    s.isValidSudoku(board);
+    bool result = s.isValidSudoku(board);
+    std::cout << result << std::endl;
     return 0;
 }
