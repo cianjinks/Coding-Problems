@@ -1,5 +1,7 @@
 //https://leetcode.com/explore/featured/card/top-interview-questions-easy/93/linked-list/603/
 
+#include <vector>
+
 struct ListNode 
 {
     int val;
@@ -16,16 +18,41 @@ public:
     }
 
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* nodes[30];
+
+        if(head->next == nullptr)
+        {
+            return nullptr;
+        }
+
+        std::vector<ListNode*> array;
         ListNode* temp = head;
-        int index = 0;
         while(temp->next != nullptr)
         {
-            nodes[index] = temp;
+            array.emplace_back(temp);
             temp = temp->next;
-            index++;
         }
-        deleteNode(nodes[index-n+1]);
-        return nodes[0];
+        array.emplace_back(temp);
+        ListNode* node = array[array.size() - n];
+        if(node->next == nullptr)
+        {
+            node = array[array.size() - (n + 1)];
+            node->next = nullptr;
+        }
+        else 
+        {
+            node->val = node->next->val;
+            node->next = node->next->next;
+        }
+
+        return head;
     }
 };
+
+int main()
+{
+    ListNode nodeTwo(2);
+    ListNode nodeOne(1);
+    nodeOne.next = &nodeTwo;
+    Solution s;
+    s.removeNthFromEnd(&nodeOne, 1);
+}
