@@ -17,12 +17,10 @@ void printArray(std::vector<char>& array, int size)
 }
 
 // Solution 1:
-/**
 class Solution {
 public:
-    bool containsDuplicate(std::vector<char> array) {
-        std::sort(array.begin(), array.end());
-        printArray(array, array.size());
+    bool containsDuplicate(std::vector<char>& array) {
+        //printArray(array, array.size());
         std::unordered_set<char> set;
         int dots = 0;
         for(auto& character : array)
@@ -94,7 +92,6 @@ public:
         return true;
     }
 };
-**/
 
 // Optimised Solution:
 
