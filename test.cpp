@@ -38,6 +38,7 @@ int main()
 **/
 
 // Generate randomised test cases for register file in VHDL
+/**
 int main()
 {
    srand(time(NULL));
@@ -51,6 +52,18 @@ int main()
       std::bitset<32> registerValue(randomNumber);
       std::cout << "dest <= \"" << destinationRegister << "\";\n";
       std::cout << "data <= \"" << registerValue << "\";\n";
+   }
+   return 0;
+}
+**/
+
+int main()
+{
+   for(int i = 0; i < 32; i++)
+   {
+      std::bitset<5> x(i);
+      std::cout << "s <= \"" << x << "\";\n";
+      std::cout << "wait for 10ns;\n";
    }
    return 0;
 }
