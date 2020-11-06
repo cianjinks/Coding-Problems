@@ -1,3 +1,4 @@
+//https://leetcode.com/submissions/detail/417503400/?from=/explore/interview/card/top-interview-questions-easy/93/linked-list/771/
 #include <iostream>
 
 struct ListNode {
@@ -8,34 +9,57 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-// This solution actually dosen't merge based on value
-/**
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) 
     {
-        if(l2 == nullptr) { return l1; }
+        ListNode* result;
+
+        // Edge cases
         if(l1 == nullptr) { return l2; }
-        if(l2->next == nullptr)
+        else if(l2 == nullptr) { return l1; }
+        //
+
+        if(l1->val <= l2->val)
         {
-            l2->next = l1;
-            return l2;
+            result = l1;
+            l1 = l1->next;
         }
-        ListNode* head = l2;
-        ListNode* l3;
-        while(l2 != nullptr)
+        else
         {
-            l3 = l2->next;
-            l2->next = l1;
-            l2 = l1->next;
-            l1->next = l3;
-            l1 = l3->next;
-            l3->next = l2;
+            result = l2;
+            l2 = l2->next;
+        }
+
+        ListNode* head = result;
+        
+        while(l1 != nullptr && l2 != nullptr)
+        {
+            if(l1->val <= l2->val)
+            {
+                result->next = l1;
+                result = result->next;
+                l1 = l1->next;
+            }
+            else
+            {
+                result->next = l2;
+                result = result->next;
+                l2 = l2->next;
+            }
+        }
+
+        if(l1 != nullptr)
+        {
+            result->next = l1;
+        } 
+        else 
+        {
+            result->next = l2;
         }
         return head;
     }
 };
-**/
 
 int main()
 {
