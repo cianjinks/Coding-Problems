@@ -57,6 +57,7 @@ int main()
 }
 **/
 
+/**
 int main()
 {
    for(int i = 0; i < 32; i++)
@@ -66,4 +67,24 @@ int main()
       std::cout << "wait for 10ns;\n";
    }
    return 0;
+}
+**/
+void binarytodec(int& count, int* binary)
+{
+   int number = 0;
+   for(int i = count-1; i > 0; i--)
+   {
+      number = number | binary[i];
+      number = number << 1;
+   }
+   number = number | binary[0];
+   count = number;
+}
+
+int main()
+{
+   int binary[8] = {1, 1, 1, 0, 1, 1, 1};
+   int count = 7;
+   binarytodec(count, binary);
+   std::cout << count << std::endl;
 }
