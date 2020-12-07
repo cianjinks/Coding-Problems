@@ -10,31 +10,32 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+// Solution 1
+/**
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        
-        int maxDepth = 1;
-        TreeNode* stack[10];
-        int stackptr = 0;
-        TreeNode* current = root;
+    int maxDepth(TreeNode* root) 
+    {
+        return maxDepth(root, 0);
+    }
 
-        stack[stackptr++] = current;
-        current = current->left;
+    int maxDepth(TreeNode* node, int height)
+    {
+        if(node == nullptr) { return height; }
+        int leftHeight = maxDepth(node->left, height+1);
+        int rightHeight = maxDepth(node->right, height+1);
+        return std::max(leftHeight, rightHeight);
+    }
+};
+**/
 
-        while(current != nullptr || stackptr > 0)
-        {
-            while(current != nullptr)
-            {
-                stack[stackptr++] = current;
-                current = current->left;
-            }
-
-            current = stack[--stackptr];
-            std::cout << current->val << " ";
-            if(stackptr+1 > maxDepth) { maxDepth = stackptr+1; }
-            current = current->right;
-        }
+// Solution 2
+class Solution {
+public:
+    int maxDepth(TreeNode* root) 
+    {
+        if(root == nullptr) { return 0; }
+        return 1 + std::max(maxDepth(root->left), maxDepth(root->right));
     }
 };
 
