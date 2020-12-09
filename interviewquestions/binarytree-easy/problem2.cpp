@@ -12,21 +12,25 @@ struct TreeNode {
 
 class Solution {
 public:
-    bool isValidBST(TreeNode* root) {
-        
+    bool isValidBST(TreeNode* root) 
+    {
+        if(root == nullptr) { return true; }
+        if(root->left != nullptr && root->left->val >= root->val) { return false; }
+        if(root->right != nullptr && root->right->val <= root->val) { return false; }
+        if(!isValidBST(root->right) || !isValidBST(root->left)) { return false; }
+        return true;
     }
 };
 
 int main()
 {
     Solution s;
-    Solution s;
-    TreeNode node1 = TreeNode(9, nullptr, nullptr);
-    TreeNode node3 = TreeNode(15, nullptr, nullptr);
-    TreeNode node4 = TreeNode(7, nullptr, nullptr);
-    TreeNode node2 = TreeNode(20, &node3, &node4);
-    TreeNode node(3, &node1, &node2);
-    std::cout << "Valid: " << s.isValidBST(&node) << std::endl;
+    TreeNode node5 = TreeNode(3, nullptr, nullptr);
+    TreeNode node4 = TreeNode(6, nullptr, nullptr);
+    TreeNode node3 = TreeNode(4, &node5, &node4);
+    TreeNode node2 = TreeNode(1, nullptr, nullptr);
+    TreeNode node1 = TreeNode(5, &node2, &node3);
+    std::cout << "Valid: " << s.isValidBST(&node1) << std::endl;
 
     return 0;
 }
