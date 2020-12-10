@@ -1,5 +1,6 @@
 // https://leetcode.com/explore/interview/card/top-interview-questions-easy/94/trees/625/
 #include <iostream>
+#include <vector>
 
 struct TreeNode {
     int val;
@@ -12,12 +13,24 @@ struct TreeNode {
 
 class Solution {
 public:
+    // Time Complexity: O(N) + O(N) = O(N)
+    // Space Complexity: O(N)
+    void recursiveInorder(TreeNode* root, std::vector<int>& values)
+    {
+        if(root->left != nullptr) { recursiveInorder(root->left, values); };
+        values.emplace_back(root->val);
+        if(root->right != nullptr) { recursiveInorder(root->right, values); }
+    }
+
     bool isValidBST(TreeNode* root) 
     {
-        if(root == nullptr) { return true; }
-        if(root->left != nullptr && root->left->val >= root->val) { return false; }
-        if(root->right != nullptr && root->right->val <= root->val) { return false; }
-        if(!isValidBST(root->right) || !isValidBST(root->left)) { return false; }
+        if(root == nullptr) { return false; }
+        std::vector<int> values;
+        recursiveInorder(root, values);
+        for(int i = 1; i < (int)values.size(); i++)
+        {
+            if(values[i] <= values[i - 1]) { return false; }
+        }
         return true;
     }
 };
