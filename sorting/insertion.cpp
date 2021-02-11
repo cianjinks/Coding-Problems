@@ -4,17 +4,15 @@ void InsertionSort(int *array, int length)
 {
     for(int i = 1; i < length; i++)
     {
-        if(array[i-1] > array[i])
+        for(int j = i; j > 0; j--)
         {
-            // Insert into sorted array section
-            int k = i;
-            while(array[k-1] > array[k] && k > 0)
+            if(array[j-1] > array[j])
             {
-                int tmp = array[k-1];
-                array[k-1] = array[k];
-                array[k] = tmp;
-                k--;
+                int tmp = array[j-1];
+                array[j-1] = array[j];
+                array[j] = tmp;
             }
+            else { break; }
         }
     }
 }
@@ -32,7 +30,7 @@ void PrintArray(int *array, int length)
 int main()
 {
     const int length = 7;
-    int array[length] = {1, 4, 5, 6, 2, 7, 8};
+    int array[length] = {1, 6, 5, 3, 2, 7, 8};
     PrintArray(array, length);
     InsertionSort(array, length);
     PrintArray(array, length);
