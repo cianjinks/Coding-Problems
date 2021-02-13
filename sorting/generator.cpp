@@ -8,42 +8,28 @@
 #define EXTRA_LARGE_DATASET 100000
 #define MAX 1000
 
+int GenerateDataFile(const char* location, int size)
+{
+    std::cout << size << " numbers..." << std::endl;
+    std::ofstream file;
+    file.open(location);
+    if(!file) { return -1;}
+    for(int i = 0; i < size; i++)
+    {
+        file << rand() % MAX << std::endl;
+    }
+    file.close();
+    return 0;
+}
+
 int main()
 {
-    std::ofstream file;
     std::cout << "Generating 4 Data Sets: " << std::endl;
 
-    std::cout << "Small of " << SMALL_DATASET << " numbers..." << std::endl;
-    file.open("./data/small.txt");
-    for(int i = 0; i < SMALL_DATASET; i++)
-    {
-        file << rand() % MAX << std::endl;
-    }
-    file.close();
-
-    std::cout << "Medium of " << MEDIUM_DATASET << " numbers..." << std::endl;
-    file.open("./data/medium.txt");
-    for(int i = 0; i < MEDIUM_DATASET; i++)
-    {
-        file << rand() % MAX << std::endl;
-    }
-    file.close();
-
-    std::cout << "Large of " << LARGE_DATASET << " numbers..." << std::endl;
-    file.open("./data/large.txt");
-    for(int i = 0; i < LARGE_DATASET; i++)
-    {
-        file << rand() % MAX << std::endl;
-    }
-    file.close();
-
-    std::cout << "Extra Large of " << EXTRA_LARGE_DATASET << " numbers..." << std::endl;
-    file.open("./data/extralarge.txt");
-    for(int i = 0; i < EXTRA_LARGE_DATASET; i++)
-    {
-        file << rand() % MAX << std::endl;
-    }
-    file.close();
+    GenerateDataFile("./data/small.txt", SMALL_DATASET);
+    GenerateDataFile("./data/medium.txt", MEDIUM_DATASET);
+    GenerateDataFile("./data/large.txt", LARGE_DATASET);
+    GenerateDataFile("./data/extralarge.txt", EXTRA_LARGE_DATASET);
 
     return 0;
 }
