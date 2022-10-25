@@ -2,69 +2,69 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <string>
 
-/* NOTE: To pass test 2 I would need to read in the numbers as strings and do the first summation of digits by converting each digit from char to int.
- *       This would collapse the number back to normal size straight away and can use ints from there.
- */
-
-int create_from_digits(std::vector<int>& digits)
+std::string create_from_digits(std::vector<int> &digits)
 {
-    int result = 0;
-    for (int d = 0; d < digits.size(); d++)
+    std::string s = "";
+    for (int d : digits)
     {
-        result *= 10;
-        result += digits[d];
+        s += std::to_string(d);
     }
-    return result;
+    return s;
 }
 
-std::vector<int> get_digits(int n)
+std::vector<int> get_digits(std::string n)
 {
     std::vector<int> digits;
-    while(n > 0)
+    for (char c : n)
     {
-        digits.push_back(n % 10);
-        n /= 10;
+        digits.push_back(c - '0');
     }
     return digits;
 }
 
-int solution(int N)
+std::string solution(std::string N)
 {
-    std::vector<int> og_digits = get_digits(N);
+    std::vector<int> digits = get_digits(N);
 
-    /* Compute recursive digits until we have one left. */
-    std::vector<int> digits(og_digits.begin(), og_digits.end());
-    while(digits.size() != 1)
+    /* Calculate sum of digits. */
+    // O(log10(n))
+    int sum = 0;
+    for (int d : digits)
     {
-        int sum = 0;
-        for (int d : digits)
-        {
-            sum += d;
-        }
-        digits = get_digits(sum);
+        sum += d;
     }
+
     /* Calculate digit we need to add to the original number. */
-    int digit_to_add = 9 - digits[0];
+    int mod = sum % 9;
+    int digit_to_add = 0;
+    if (mod)
+    {
+        digit_to_add = 9 - (sum % 9);
+    }
 
     /* Loop from front of number and insert digit before largest digit. This will give the smallest number. */
-    std::reverse(og_digits.begin(), og_digits.end());
+    // O(log10(n))
     int i = 0;
-    for (; i < og_digits.size(); i++)
+    for (; i < digits.size(); i++)
     {
-        if (digit_to_add < og_digits[i])
+        if (digit_to_add < digits[i])
         {
-            if (i == 0 && digit_to_add == 0) { continue; } /* No leading 0's. */
-            og_digits.insert(og_digits.begin() + i, digit_to_add);
+            if (i == 0 && digit_to_add == 0) /* No leading 0's. */
+            {
+                continue;
+            }
+            digits.insert(digits.begin() + i, digit_to_add);
             break;
         }
     }
-    if (i == og_digits.size())
+    if (i == digits.size())
     {
-        og_digits.push_back(digit_to_add);
+        digits.push_back(digit_to_add);
     }
 
-    return create_from_digits(og_digits);
+    return create_from_digits(digits);
 }
 
 int main()
@@ -73,9 +73,9 @@ int main()
     std::cin >> T;
     for (int t = 1; t <= T; t++)
     {
-        int N;
+        std::string N;
         std::cin >> N;
-        int result = solution(N);
+        std::string result = solution(N);
         std::cout << "Case #" << t << ": " << result << std::endl;
     }
 }
